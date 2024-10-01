@@ -1,0 +1,45 @@
+server:
+  port: ${SERVER_PORT:8075}
+spring:
+  application:
+    name: bs-api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: terminal_service
+          uri: lb://infrastructureservice
+          predicates:
+            - Path=/terminal/**
+          filters:
+            - RewritePath=/terminal/(?<path>.*), /$\{path}
+        - id: account_service
+          uri: lb://accountservice
+          predicates:
+            - Path=/account/**
+          filters:
+            - RewritePath=/account/(?<path>.*), /$\{path}
+        - id: user_service
+          uri: lb://userservice
+          predicates:
+            - Path=/user/**
+          filters:
+            - RewritePath=/user/(?<path>.*), /$\{path}
+        - id: auth_service
+          uri: lb://authservice
+          predicates:
+            - Path=/auth/**
+          filters:
+            - RewritePath=/auth/(?<path>.*), /$\{path}
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://${DISCOVERY_USERNAME}:${DISCOVERY_PASSWORD}@localhost:8008/eureka/}
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs

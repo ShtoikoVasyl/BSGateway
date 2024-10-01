@@ -1,0 +1,15 @@
+#!/bin/bash
+
+DISCOVERY_PASSWORD="my-password"
+DISCOVERY_USERNAME="my-username"
+GATEWAY_SERVER_PORT=8003
+EUREKA_URL="http://my-username:my-password@localhost:8001/eureka/"
+
+IMAGE_NAME="api_gateway"
+
+docker run -d -p ${GATEWAY_SERVER_PORT}:${GATEWAY_SERVER_PORT} \
+  -e DISCOVERY_PASSWORD=${DISCOVERY_PASSWORD} \
+  -e DISCOVERY_USERNAME=${DISCOVERY_USERNAME} \
+  -e SERVER_PORT=${GATEWAY_SERVER_PORT} \
+  -e EUREKA_URL=${EUREKA_URL} \
+  ${IMAGE_NAME}

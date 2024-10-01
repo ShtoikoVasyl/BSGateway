@@ -1,0 +1,13 @@
+FROM amazoncorretto:21-alpine-full
+
+WORKDIR /app
+
+COPY target/bs-gateway-0.0.1-SNAPSHOT.jar /app/bs-gateway-0.0.1-SNAPSHOT.jar
+
+EXPOSE ${SERVER_PORT}
+
+ENV DISCOVERY_PASSWORD=${DISCOVERY_PASSWORD}
+ENV DISCOVERY_USERNAME=${DISCOVERY_USERNAME}
+ENV EUREKA_URL=${EUREKA_URL}
+
+ENTRYPOINT ["java", "-jar", "/app/bs-gateway-0.0.1-SNAPSHOT.jar"]
